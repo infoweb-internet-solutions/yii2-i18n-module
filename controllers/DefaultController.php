@@ -42,7 +42,7 @@ class DefaultController extends Controller
             Yii::$app->getSession()->setFlash('i18n', Module::t('Updated'));
             
             // Take appropriate action based on the pushed button
-            if (isset($post['close'])) {
+            if (isset(Yii::$app->getRequest()->post('close'))) {
                 return $this->redirect(['index']);
             } else {
                 return $this->redirect(['update', 'id' => $model->id]);

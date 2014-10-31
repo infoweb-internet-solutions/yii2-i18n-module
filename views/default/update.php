@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
         <div class="panel panel-default">
             <div class="panel-heading">
                 <?= Module::t('Source message') ?>
-                <?php if (Yii::$app->user->can('Superadmin')) : ?> (<?php echo $model->category; ?>)<?php endif; ?>
+                <?php if (Yii::$app->user->can('Superadmin')) : ?> <strong>(<?php echo $model->category; ?>)</strong><?php endif; ?>
             </div>
             <div class="panel-body"><?= Html::encode($model->message) ?></div>
         </div>
