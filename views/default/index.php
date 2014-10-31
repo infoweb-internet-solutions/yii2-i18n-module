@@ -16,12 +16,9 @@ use Zelenin\yii\modules\I18n\models\search\SourceMessageSearch;
 use Zelenin\yii\modules\I18n\Module;
 
 $this->title = Module::t('Translations');
-echo Breadcrumbs::widget(['links' => [
-    $this->title
-]]);
 ?>
 <div class="message-index">
-    <h3><?= Html::encode($this->title) ?></h3>
+    <h1><?= Html::encode($this->title) ?></h1>
     <?php
     Pjax::begin();
     echo GridView::widget([
