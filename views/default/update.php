@@ -10,7 +10,6 @@ use yii\widgets\ActiveForm;
 use yii\widgets\Breadcrumbs;
 use Zelenin\yii\modules\I18n\models\SourceMessage;
 use Zelenin\yii\modules\I18n\Module;
-use Zelenin\yii\widgets\Alert;
 
 $this->title = Module::t('Update');
 $this->params['breadcrumbs'][] = ['label' => Module::t('Translations'), 'url' => ['index']];
@@ -23,13 +22,16 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
         <?php echo $this->render('_flash_messages'); ?>
     
         <div class="panel panel-default">
-            <div class="panel-heading"><?= Module::t('Source message') ?></div>
+            <div class="panel-heading">
+                <?= Module::t('Source message') ?>
+                <?php if (Yii::$app->user->can('Superadmin')) : ?> (<?php echo $model->category; ?>)<?php endif; ?>
+            </div>
             <div class="panel-body"><?= Html::encode($model->message) ?></div>
         </div>
         <?php $form = ActiveForm::begin(); ?>
         <div class="row">
             <?php foreach ($model->messages as $language => $message) : ?>
-                <?= $form->field($model->messages[$language], '[' . $language . ']translation', ['options' => ['class' => 'form-group col-sm-6']])->textArea()->label($language) ?>
+                <?= $form->field($model->messages[$language], '[' . $language . ']translation', ['options' => ['class' => 'form-group col-sm-6']])->textArea(['rows' => 5])->label(Yii::$app->params['languages'][$language]) ?>
             <?php endforeach; ?>
         </div>
         
