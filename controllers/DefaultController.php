@@ -2,11 +2,13 @@
 
 namespace Zelenin\yii\modules\I18n\controllers;
 
+use Yii;
 use yii\base\Model;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
-use Yii;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 use Zelenin\yii\modules\I18n\models\search\SourceMessageSearch;
 use Zelenin\yii\modules\I18n\models\SourceMessage;
 use Zelenin\yii\modules\I18n\Module;
@@ -17,9 +19,11 @@ class DefaultController extends Controller
     {
         $searchModel = new SourceMessageSearch;
         $dataProvider = $searchModel->search(Yii::$app->getRequest()->get());
+
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider
+            'dataProvider' => $dataProvider,
+            'gridViewColumns' => $this->getGridViewColumns($searchModel, $dataProvider)
         ]);
     }
 
@@ -58,5 +62,72 @@ class DefaultController extends Controller
         } else {
             throw new NotFoundHttpException(Module::t('The requested page does not exist'));
         }
+    }
+    
+    /**
+     * Returns the columns that are used in the gridview
+     * 
+     * @return  array
+     */
+    protected function getGridViewColumns($searchModel, $dataProvider)
+    {
+        // Build the gridview columns
+        $gridViewColumns = [];
+        
+        // Add id column
+        if (Yii::$app->user->can('Superadmin')) {
+            $gridViewColumns[] = [
+                'attribute' => 'id',
+                'value' => function ($model, $index, $dataColumn) {
+                    return $model->id;
+                },
+                'filter' => false
+            ];            
+        }
+        
+        // Add message column
+        $gridViewColumns[] = [
+            'attribute' => 'message',
+            'format' => 'raw',
+            'value' => function ($model, $index, $widget) {
+                return Html::a($model->message, ['update', 'id' => $model->id], ['data' => ['pjax' => 0]]);
+            }
+        ];
+        
+        // Add category column
+        if (Yii::$app->user->can('Superadmin')) {
+            $gridViewColumns[] = [
+                'attribute' => 'category',
+                'value' => function ($model, $index, $dataColumn) {
+                    return $model->category;
+                },
+                'filter' => ArrayHelper::map($searchModel::getCategories(), 'category', 'category')
+            ];            
+        }
+        
+        // Add status column
+        $gridViewColumns[] = [
+            'attribute' => 'status',
+            'value' => function ($model, $index, $widget) {
+                return '';
+            },
+            'filter' => Html::dropDownList($searchModel->formName() . '[status]', $searchModel->status, $searchModel->getStatus(), [
+                'class' => 'form-control',
+                'prompt' => ''
+            ])
+        ];
+        
+        // Add action column
+        if (Yii::$app->user->can('Superadmin')) {
+            $gridViewColumns[] = [
+                'class' => 'kartik\grid\ActionColumn',
+                'template' => '{update} {delete}',
+                'updateOptions' => ['title' => Yii::t('app', 'Update'), 'data-toggle' => 'tooltip'],
+                'deleteOptions' => ['title' => Yii::t('app', 'Delete'), 'data-toggle' => 'tooltip'],
+                'width' => '120px',
+            ],
+        }
+        
+        return $gridViewColumns;    
     }
 }

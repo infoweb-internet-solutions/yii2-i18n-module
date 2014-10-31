@@ -6,59 +6,33 @@
  */
 
 use yii\data\ActiveDataProvider;
-use yii\grid\GridView;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\View;
 use yii\widgets\Breadcrumbs;
 use yii\widgets\Pjax;
 use Zelenin\yii\modules\I18n\models\search\SourceMessageSearch;
 use Zelenin\yii\modules\I18n\Module;
+use kartik\grid\GridView;
 
 $this->title = Module::t('Translations');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="message-index">
-    <h1><?= Html::encode($this->title) ?>.</h1>
-    <?php
-    Pjax::begin();
-    echo GridView::widget([
+    <?php // Title ?>
+    <h1><?= Html::encode($this->title) ?></h1>
+    
+    <?php // Flash messages ?>
+    <?php echo $this->render('_flash_messages'); ?>
+    
+    <?php // Gridview ?>
+    <?php echo GridView::widget([
         'filterModel' => $searchModel,
         'dataProvider' => $dataProvider,
-        'columns' => [
-            [
-                'attribute' => 'id',
-                'value' => function ($model, $index, $dataColumn) {
-                        return $model->id;
-                    },
-                'filter' => false
-            ],
-            [
-                'attribute' => 'message',
-                'format' => 'raw',
-                'value' => function ($model, $index, $widget) {
-                        return Html::a($model->message, ['update', 'id' => $model->id], ['data' => ['pjax' => 0]]);
-                    }
-            ],
-            [
-                'attribute' => 'category',
-                'value' => function ($model, $index, $dataColumn) {
-                        return $model->category;
-                    },
-                'filter' => ArrayHelper::map($searchModel::getCategories(), 'category', 'category')
-            ],
-            [
-                'attribute' => 'status',
-                'value' => function ($model, $index, $widget) {
-                        return '';
-                    },
-                'filter' => Html::dropDownList($searchModel->formName() . '[status]', $searchModel->status, $searchModel->getStatus(), [
-                        'class' => 'form-control',
-                        'prompt' => ''
-                    ])
-            ]
-        ]
-    ]);
-    Pjax::end();
-    ?>
+        'columns' => $gridViewColumns,
+        'responsive' => true,
+        'floatHeader' => true,
+        'floatHeaderOptions' => ['scrollingTop' => 88],
+        'hover' => true,
+        'pjax' => true,
+    ]); ?>
 </div>
