@@ -41,8 +41,10 @@ class DefaultController extends Controller
             $model->saveMessages();
             Yii::$app->getSession()->setFlash('i18n', Module::t('Updated'));
             
+            $post = Yii::$app->getRequest()->post();
+            
             // Take appropriate action based on the pushed button
-            if (isset(Yii::$app->getRequest()->post('close'))) {
+            if (isset($post['close'])) {
                 return $this->redirect(['index']);
             } else {
                 return $this->redirect(['update', 'id' => $model->id]);
