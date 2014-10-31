@@ -21,7 +21,7 @@ echo Breadcrumbs::widget(['links' => [
 ]]);
 ?>
 <div class="message-index">
-    <h3><?= Html::encode($this->title) ?>.</h3>
+    <h3><?= Html::encode($this->title) ?></h3>
     <?php
     Pjax::begin();
     echo GridView::widget([

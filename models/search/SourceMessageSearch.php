@@ -35,6 +35,10 @@ class SourceMessageSearch extends SourceMessage
     {
         $query = SourceMessage::find();
         $dataProvider = new ActiveDataProvider(['query' => $query]);
+        
+        // Only the 'frontend' category is visible for normal users
+        if (!Yii::$app->user->can('Superadmin'))
+            $query->andFilterWhere(['category' => 'frontend']);    
 
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
