@@ -125,7 +125,7 @@ class DefaultController extends Controller
                 'updateOptions' => ['title' => Yii::t('app', 'Update'), 'data-toggle' => 'tooltip'],
                 'deleteOptions' => ['title' => Yii::t('app', 'Delete'), 'data-toggle' => 'tooltip'],
                 'width' => '120px',
-            ],
+            ];
         }
         
         return $gridViewColumns;    
