@@ -44,7 +44,7 @@ class Module extends \yii\base\Module
         }
         
         // Category is 'frontend' and the language is the main language
-        if ($event->category == 'frontend' && $event->language == Yii::$app->language) {
+        if ($event->category == 'frontend' && $event->language == 'nl') {
             // Use the event message as the translation
             $message = new Message;
             $message->setAttributes([
