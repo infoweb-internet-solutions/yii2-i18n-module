@@ -46,10 +46,10 @@ class Module extends \yii\base\Module
         // Category is 'frontend' and the language is the main language
         if ($event->category == 'frontend' && $event->language == 'nl') {
             // Use the event message as the translation
-            $message = Message::find([
+            $message = Message::findOne([
                 'id'        => $sourceMessage->id,
                 'language'  => $event->language
-            ])->one();
+            ]);
             
             // The message exists but has an empty translation so update it
             if ($message && $message->translation == null) {
