@@ -5,6 +5,7 @@ namespace Zelenin\yii\modules\I18n;
 use Yii;
 use yii\i18n\MissingTranslationEvent;
 use Zelenin\yii\modules\I18n\models\SourceMessage;
+use Zelenin\yii\modules\I18n\models\Message;
 
 class Module extends \yii\base\Module
 {
@@ -41,6 +42,19 @@ class Module extends \yii\base\Module
             ], false);
             $sourceMessage->save(false);
         }
+        
+        // Category is 'frontend' and the language is the main language
+        if ($event->category == 'frontend' && $event->language == Yii::$app->language) {
+            // Use the event message as the translation
+            $message = new Message;
+            $message->setAttributes([
+                'id'            => $sourceMessage->id,
+                'language'      => $event->language,
+                'translation'   => $event->message    
+            ]);
+            $message->save();          
+        }
+        
         $sourceMessage->initMessages();
         $sourceMessage->saveMessages();
     }
