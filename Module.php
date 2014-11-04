@@ -48,11 +48,11 @@ class Module extends \yii\base\Module
             // Use the event message as the translation
             $message = new Message;
             $message->setAttributes([
-                'id'            => $sourceMessage->id,
                 'language'      => $event->language,
                 'translation'   => $event->message    
             ]);
-            $message->save();          
+            $sourceMessage->link('messages', $message);
+            $message->save();         
         }
         
         $sourceMessage->initMessages();
