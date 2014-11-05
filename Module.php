@@ -50,10 +50,11 @@ class Module extends \yii\base\Module
                 'id'        => $sourceMessage->id,
                 'language'  => $event->language
             ]);
-            
-            // The message exists but has an empty translation so update it
-            if ($message && $message->translation == null) {
-                $message->translation = $event->message;
+                        
+            if ($message) {
+                // The message exists but has an empty translation so update it
+                if ($message->translation == null)
+                    $message->translation = $event->message;    
             } else {
                 $message = new Message;
                 
