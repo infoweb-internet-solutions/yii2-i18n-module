@@ -55,6 +55,8 @@ class Module extends \yii\base\Module
             if ($message && $message->translation == null) {
                 $message->translation = $event->message;
             } else {
+                $message = new Message;
+                
                 // Set message attributes and link it to the source message
                 $message->setAttributes([
                     'language'      => $event->language,
