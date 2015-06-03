@@ -8,6 +8,7 @@ use yii\helpers\Html;
 use yii\web\View;
 use yii\widgets\ActiveForm;
 use yii\widgets\Breadcrumbs;
+use yii\helpers\url;
 use Zelenin\yii\modules\I18n\models\SourceMessage;
 use Zelenin\yii\modules\I18n\Module;
 
@@ -38,7 +39,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
         <div class="form-group buttons">
             <?= Html::submitButton(Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
             <?= Html::submitButton(Yii::t('app', 'Update & close'), ['class' => 'btn btn-default', 'name' => 'close']) ?>
-            <?= Html::a(Yii::t('app', 'Close'), ['index'], ['class' => 'btn btn-danger']) ?>
+            <?= Html::a(Yii::t('app', 'Close'), Url::previous(), ['class' => 'btn btn-danger']) ?>
         </div>
         <?php $form::end(); ?>
     </div>

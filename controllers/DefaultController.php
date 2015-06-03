@@ -9,6 +9,7 @@ use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\helpers\url;
 use Zelenin\yii\modules\I18n\models\search\SourceMessageSearch;
 use Zelenin\yii\modules\I18n\models\SourceMessage;
 use Zelenin\yii\modules\I18n\Module;
@@ -19,6 +20,9 @@ class DefaultController extends Controller
     {
         $searchModel = new SourceMessageSearch;
         $dataProvider = $searchModel->search(Yii::$app->getRequest()->get());
+        
+        // Remember the current url
+        Url::remember();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -45,7 +49,8 @@ class DefaultController extends Controller
             
             // Take appropriate action based on the pushed button
             if (isset($post['close'])) {
-                return $this->redirect(['index']);
+                // Redirect to previous url
+                return $this->redirect(Url::previous());
             } else {
                 return $this->redirect(['update', 'id' => $model->id]);
             }
