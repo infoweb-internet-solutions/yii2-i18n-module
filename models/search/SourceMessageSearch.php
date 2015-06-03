@@ -45,10 +45,10 @@ class SourceMessageSearch extends SourceMessage
         }
 
         if ($this->status == static::STATUS_TRANSLATED) {
-            $query->translated();
+            $query->translated($this->category);
         }
         if ($this->status == static::STATUS_NOT_TRANSLATED) {
-            $query->notTranslated();
+            $query->notTranslated($this->category);
         }
 
         $query
