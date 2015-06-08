@@ -9,7 +9,7 @@ use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use yii\helpers\url;
+use yii\helpers\Url;
 use Zelenin\yii\modules\I18n\models\search\SourceMessageSearch;
 use Zelenin\yii\modules\I18n\models\SourceMessage;
 use Zelenin\yii\modules\I18n\Module;
