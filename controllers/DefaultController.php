@@ -73,7 +73,7 @@ class DefaultController extends Controller
         // Set flash message
         Yii::$app->getSession()->setFlash('i18n', Yii::t('app', 'The item has been deleted'));
 
-        return $this->redirect(['index']);
+        return $this->redirect(Url::previous());
     }
 
     /**
