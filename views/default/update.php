@@ -18,10 +18,10 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
 ?>
 <div class="message-update">
     <div class="message-form">
-        
+
         <?php // Flash messages ?>
         <?php echo $this->render('_flash_messages'); ?>
-    
+
         <div class="panel panel-default">
             <div class="panel-heading">
                 <?= Module::t('Source message') ?>
@@ -32,10 +32,12 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
         <?php $form = ActiveForm::begin(); ?>
         <div class="row">
             <?php foreach ($model->messages as $language => $message) : ?>
-                <?= $form->field($model->messages[$language], '[' . $language . ']translation', ['options' => ['class' => 'form-group col-sm-6']])->textArea(['rows' => 5])->label(Yii::$app->params['languages'][$language]) ?>
+            <?php if (in_array($language, array_keys(Yii::$app->params['languages']))): ?>
+            <?= $form->field($model->messages[$language], '[' . $language . ']translation', ['options' => ['class' => 'form-group col-sm-6']])->textArea(['rows' => 5])->label(Yii::$app->params['languages'][$language]) ?>
+            <?php endif; ?>
             <?php endforeach; ?>
         </div>
-        
+
         <div class="form-group buttons">
             <?= Html::submitButton(Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
             <?= Html::submitButton(Yii::t('app', 'Update & close'), ['class' => 'btn btn-default', 'name' => 'close']) ?>
