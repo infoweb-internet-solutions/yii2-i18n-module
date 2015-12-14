@@ -43,4 +43,20 @@ class I18N extends \yii\i18n\I18N
         }
         parent::init();
     }
+
+    /**
+     * Hack to suppress error message
+     *
+     * @param string $category
+     * @param string $message
+     * @param array $params
+     * @param string $language
+     * @return string
+     */
+    public function translate($category, $message, $params, $language){
+        if($language=='en' && $category=='yii'){
+            $language = 'en-US';
+        }
+        return parent::translate($category, $message, $params, $language);
+    }
 }
