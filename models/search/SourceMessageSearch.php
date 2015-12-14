@@ -35,16 +35,20 @@ class SourceMessageSearch extends SourceMessage
     {
         $query = SourceMessage::find();
         $dataProvider = new ActiveDataProvider(['query' => $query]);
+        
+        // Only the 'frontend' category is visible for normal users
+        if (!Yii::$app->user->can('Superadmin'))
+            $query->andFilterWhere(['category' => 'frontend']);    
 
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
 
         if ($this->status == static::STATUS_TRANSLATED) {
-            $query->translated();
+            $query->translated($this->category);
         }
         if ($this->status == static::STATUS_NOT_TRANSLATED) {
-            $query->notTranslated();
+            $query->notTranslated($this->category);
         }
 
         $query
