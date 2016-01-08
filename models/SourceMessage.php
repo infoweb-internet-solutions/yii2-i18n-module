@@ -61,7 +61,7 @@ class SourceMessage extends ActiveRecord
      */
     public static function getCategories()
     {
-        return SourceMessage::find()->select('category')->distinct('category')->asArray()->all();
+        return SourceMessage::find()->select('category')->distinct('category')->orderBy('category')->asArray()->all();
     }
 
     public function initMessages()
