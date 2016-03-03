@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
         <div class="row">
             <?php foreach ($model->messages as $language => $message) : ?>
             <?php if (in_array($language, array_keys(Yii::$app->getI18n()->languages))): ?>
-            <?= $form->field($model->messages[$language], '[' . $language . ']translation', ['options' => ['class' => 'form-group col-sm-6']])->textArea(['rows' => 5])->label(Yii::$app->params['languages'][strtolower($language)]) ?>
+            <?= $form->field($model->messages[$language], '[' . $language . ']translation', ['options' => ['class' => 'form-group col-sm-6']])->textArea(['rows' => 5])->label(Yii::$app->params['languages'][$language]) ?>
             <?php endif; ?>
             <?php endforeach; ?>
         </div>
